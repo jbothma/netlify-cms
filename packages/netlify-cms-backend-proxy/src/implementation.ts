@@ -8,6 +8,7 @@ import {
   ImplementationFile,
   EditorialWorkflowError,
   APIError,
+  UnpublishedEntry,
 } from 'netlify-cms-lib-util';
 import AuthenticationPage from './AuthenticationPage';
 
@@ -135,7 +136,7 @@ export default class ProxyBackend implements Implementation {
     slug?: string;
   }) {
     try {
-      const entry = await this.request({
+      const entry: UnpublishedEntry = await this.request({
         action: 'unpublishedEntry',
         params: { branch: this.branch, id, collection, slug },
       });
@@ -150,7 +151,7 @@ export default class ProxyBackend implements Implementation {
   }
 
   async unpublishedEntryDataFile(collection: string, slug: string, path: string, id: string) {
-    const data = await this.request({
+    const { data } = await this.request({
       action: 'unpublishedEntryDataFile',
       params: { branch: this.branch, collection, slug, path, id },
     });
